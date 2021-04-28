@@ -35,6 +35,9 @@ final class Item
      */
     private $raw;
 
+    /**
+     * @var bool
+     */
     private $itInit = false;
 
     /**
@@ -49,7 +52,6 @@ final class Item
         $this->init();
 
     }
-
 
     /**
      * Метод для сохранения изменений
@@ -78,15 +80,14 @@ final class Item
      */
     public function __get(string $name)
     {
-        $list = get_object_vars($this);
-        if ($list[$name]) {
-            return $this->$name;
-        }
+        $this->checkPropertyExist($name);
+        return $this->$name;
     }
 
     /**
      * @param $name
      * @param $value
+     * @throws Exception
      */
     public function __set($name, $value)
     {
@@ -104,6 +105,8 @@ final class Item
                 }
                 break;
         }
+
+        $this->checkPropertyExist($name);
     }
 
     /**
@@ -123,5 +126,17 @@ final class Item
             $this->status = $result['status'];
         }
         $this->itInit = true;
+    }
+
+    /**
+     * @param string $name
+     * @throws Exception
+     */
+    private function checkPropertyExist(string $name): void
+    {
+        $list = get_object_vars($this);
+        if (!isset($list[$name])) {
+            throw new Exception('У класса отсуствует данное свойство');
+        }
     }
 }
