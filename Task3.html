@@ -16,22 +16,15 @@
     }
 </style>
 <script type="text/javascript">
-    var down = false;
-    $('html').keydown(function (eventObject) {
-        if (down) {
-            return;
-        }
-        down = true;
-        let keyCode = getAllowKeyCode();
-        if (keyCode) {
-            setTimeout(function () {
-                alert(keyCode);
-            }, 200);
-        }
-    }).keyup(function (eventObject) {
-        if (getAllowKeyCode()) {
-            console.log('Отпустили')
-            down = false;
+
+    document.addEventListener('keydown', function(event){
+        if (event.repeat === false) {
+            let keyCode = getAllowKeyCode();
+            if (keyCode) {
+                setTimeout(function () {
+                    alert(keyCode);
+                });
+            }
         }
     });
 
@@ -44,7 +37,6 @@
 
         return keyCodes[event.keyCode];
     }
-
 </script>
 </body>
 </html>
