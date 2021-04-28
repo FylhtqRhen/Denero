@@ -35,6 +35,8 @@ final class Item
      */
     private $raw;
 
+    private $itInit = false;
+
     /**
      * Item constructor.
      * @param int $id
@@ -109,9 +111,7 @@ final class Item
      */
     private function init(): void
     {
-        static $itInit = false;
-
-        if ($itInit) {
+        if ($this->itInit) {
             return;
         }
         $sql = 'SELECT `name`, `status`  FROM `objects` WHERE `id` = ?';
@@ -122,5 +122,6 @@ final class Item
             $this->name = $result['name'];
             $this->status = $result['status'];
         }
+        $this->itInit = true;
     }
 }
